@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import ResourceLayout from '../../layouts/ResourceLayout.astro';
+import Breadcrumbs from '../../components/navigation/Breadcrumbs.astro';
+import ResourceGrid from '../../components/resources/ResourceGrid.astro';
+import Pagination from '../../components/navigation/Pagination.astro';
+import { audiences, categories, difficulties } from '../../config/taxonomies';
+import { byNewest } from '../../utils/resources';
+
+const PAGE_SIZE = 12;
+
+export async function getStaticPaths() {
+  const all = (await getCollection('resources', ({ data }) => data.type === 'mandala')).sort(byNewest);
+  const paths: Array<{ params: { path: string }; props: Record<string, unknown> }> = [];
+
+  for (const resource of all) paths.push({ params: { path: resource.data.slug }, props: { kind: 'resource', resource, all } });
+
+  for (const category of categories) {
+    paths.push({ params: { path: category.slug }, props: { kind: 'landing', taxonomy: 'category', category, items: all.filter((item) => item.data.category === category.slug) } });
+    for (const subcategory of category.subcategories ?? []) {
+      paths.push({ params: { path: `${category.slug}/${subcategory.slug}` }, props: { kind: 'landing', taxonomy: 'subcategory', category, subcategory, items: all.filter((item) => item.data.category === category.slug && item.data.subcategory === subcategory.slug) } });
+    }
+  }
+
+  for (const difficulty of difficulties) paths.push({ params: { path: difficulty.slug }, props: { kind: 'landing', taxonomy: 'difficulty', term: difficulty, items: all.filter((item) => item.data.difficulty === difficulty.value) } });
+  for (const audience of audiences) paths.push({ params: { path: audience.slug }, props: { kind: 'landing', taxonomy: 'audience', term: audience, items: all.filter((item) => item.data.audience === audience.value || item.data.audience === 'todos') } });
+
+  const totalPages = Math.ceil(all.length / PAGE_SIZE);
+  for (let page = 2; page <= totalPages; page++) paths.push({ params: { path: `pagina/${page}` }, props: { kind: 'pagination', items: all.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE), page, totalPages } });
+  return paths;
+}
+
+const props = Astro.props as any;
+if (props.kind === 'resource') {
+  // Renderizado en la plantilla especializada de recurso.
+}
+
+let title = '';
+let description = '';
+let heading = '';
+let eyebrow = 'Colección de mandalas';
+let breadcrumbs: Array<{ label: string; href?: string }> = [{ label: 'Inicio', href: '/' }, { label: 'Mandalas', href: '/mandalas/' }];
+let baseUrl = '/mandalas/';
+let page = 1;
+let totalPages = 1;
+
+if (props.kind === 'landing') {
+  const label = props.subcategory?.name ?? props.category?.name ?? props.term?.name;
+  heading = `Mandalas ${props.taxonomy === 'category' || props.taxonomy === 'subcategory' ? 'de ' : 'para '}${label}`;
+  if (props.taxonomy === 'difficulty') heading = `Mandalas ${label.toLowerCase()}`;
+  if (props.taxonomy === 'audience') heading = `Mandalas para ${label.toLowerCase()}`;
+  description = props.subcategory?.description ?? props.category?.description ?? props.term?.description;
+  title = `${heading} para imprimir gratis`;
+  if (props.category) breadcrumbs.push({ label: props.category.name, href: props.subcategory ? `/mandalas/${props.category.slug}/` : undefined });
+  if (props.subcategory) breadcrumbs.push({ label: props.subcategory.name });
+  if (props.term) breadcrumbs.push({ label: props.term.name });
+  baseUrl = Astro.url.pathname;
+}
+
+if (props.kind === 'pagination') {
+  page = props.page;
+  totalPages = props.totalPages;
+  title = `Mandalas para imprimir — Página ${page}`;
+  heading = `Todos los mandalas — Página ${page}`;
+  description = `Página ${page} de nuestra biblioteca de mandalas gratuitos para descargar, imprimir y colorear.`;
+  breadcrumbs.push({ label: `Página ${page}` });
+}
+---
+{props.kind === 'resource' ? (
+  <ResourceLayout resource={props.resource} allResources={props.all} />
+) : (
+  <MainLayout title={title} description={description}>
+    <div class="container">
+      <Breadcrumbs items={breadcrumbs} />
+      <header class="page-intro"><span class="eyebrow">{eyebrow}</span><h1>{heading}</h1><p>{description}</p></header>
+    </div>
+    <section class="section section-tinted"><div class="container">
+      <div class="section-header"><h2>Diseños disponibles</h2><p>{props.items.length} {props.items.length === 1 ? 'mandala' : 'mandalas'}</p></div>
+      <ResourceGrid resources={props.items} eagerCount={4} />
+      {props.kind === 'pagination' && <Pagination current={page} total={totalPages} baseUrl={baseUrl} />}
+    </div></section>
+    {props.kind === 'landing' && props.category?.subcategories?.length > 0 && <section class="section"><div class="container"><div class="section-header"><h2>Explora {props.category.name}</h2></div><div class="pill-links">{props.category.subcategories.map((item: any) => <a href={`/mandalas/${props.category.slug}/${item.slug}/`}>{item.name}</a>)}</div></div></section>}
+  </MainLayout>
+)}

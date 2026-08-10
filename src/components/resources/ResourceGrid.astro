@@ -1,0 +1,7 @@
+---
+import type { Resource } from '../../utils/resources';
+import ResourceCard from './ResourceCard.astro';
+interface Props { resources: Resource[]; eagerCount?: number }
+const { resources, eagerCount = 0 } = Astro.props;
+---
+{resources.length ? <div class="resource-grid">{resources.map((resource, index) => <ResourceCard resource={resource} eager={index < eagerCount} />)}</div> : <p class="empty-state">Pronto añadiremos recursos a esta colección.</p>}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+  <title id="title">Mandala de demostración</title><desc id="desc">Diseño circular geométrico en blanco y negro usado como marcador temporal.</desc>
+  <rect width="800" height="800" fill="#fff"/><g fill="none" stroke="#34483e" stroke-width="5">
+    <circle cx="400" cy="400" r="340"/><circle cx="400" cy="400" r="275"/><circle cx="400" cy="400" r="195"/><circle cx="400" cy="400" r="110"/><circle cx="400" cy="400" r="36"/>
+    <g id="petal"><path d="M400 365C340 305 344 222 400 130c56 92 60 175 0 235Z"/><path d="M400 290c-30-44-27-91 0-135 27 44 30 91 0 135Z"/></g>
+    <use href="#petal" transform="rotate(45 400 400)"/><use href="#petal" transform="rotate(90 400 400)"/><use href="#petal" transform="rotate(135 400 400)"/><use href="#petal" transform="rotate(180 400 400)"/><use href="#petal" transform="rotate(225 400 400)"/><use href="#petal" transform="rotate(270 400 400)"/><use href="#petal" transform="rotate(315 400 400)"/>
+    <g id="leaf"><path d="M400 365c-53-8-91 12-115 35 24 23 62 43 115 35"/><path d="M400 365c53-8 91 12 115 35-24 23-62 43-115 35"/></g>
+    <use href="#leaf" transform="rotate(45 400 400)"/><use href="#leaf" transform="rotate(90 400 400)"/><use href="#leaf" transform="rotate(135 400 400)"/><use href="#leaf" transform="rotate(180 400 400)"/><use href="#leaf" transform="rotate(225 400 400)"/><use href="#leaf" transform="rotate(270 400 400)"/><use href="#leaf" transform="rotate(315 400 400)"/>
+  </g><text x="400" y="760" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" fill="#65726d">IMAGEN DE DEMOSTRACIÓN</text>
+</svg>

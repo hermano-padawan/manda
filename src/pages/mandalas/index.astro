@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumbs from '../../components/navigation/Breadcrumbs.astro';
+import CategoryCard from '../../components/resources/CategoryCard.astro';
+import ResourceGrid from '../../components/resources/ResourceGrid.astro';
+import Pagination from '../../components/navigation/Pagination.astro';
+import { audiences, categories, difficulties } from '../../config/taxonomies';
+import { byNewest } from '../../utils/resources';
+const PAGE_SIZE = 12;
+const all = (await getCollection('resources', ({ data }) => data.type === 'mandala')).sort(byNewest);
+const countFor = (category: string) => all.filter((item) => item.data.category === category).length;
+---
+<MainLayout title="Mandalas para colorear e imprimir" description="Explora mandalas gratuitos por categoría, dificultad o edad y descárgalos en PDF o imagen para imprimir.">
+  <div class="container"><Breadcrumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Mandalas' }]} /><header class="page-intro"><span class="eyebrow">Biblioteca gratuita</span><h1>Mandalas para colorear e imprimir</h1><p>Encuentra un diseño para cada momento. Todos los mandalas se pueden descargar e imprimir gratis.</p><div class="pill-links">{difficulties.map((item) => <a href={`/mandalas/${item.slug}/`}>{item.name}</a>)}{audiences.map((item) => <a href={`/mandalas/${item.slug}/`}>{item.name}</a>)}</div></header></div>
+  <section class="section section-tinted" id="categorias"><div class="container"><div class="section-header"><div><span class="eyebrow">Explorar</span><h2>Categorías</h2></div></div><div class="category-grid">{categories.map((category) => <CategoryCard {...category} count={countFor(category.slug)} />)}</div></div></section>
+  <section class="section"><div class="container"><div class="section-header"><div><span class="eyebrow">Todos los diseños</span><h2>Últimos mandalas</h2></div><p>{all.length} recursos disponibles</p></div><ResourceGrid resources={all.slice(0, PAGE_SIZE)} eagerCount={4} /><Pagination current={1} total={Math.ceil(all.length / PAGE_SIZE)} baseUrl="/mandalas/" /></div></section>
+</MainLayout>

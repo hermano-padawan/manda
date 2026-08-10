@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../layouts/MainLayout.astro';
+import ResourceGrid from '../components/resources/ResourceGrid.astro';
+import CategoryCard from '../components/resources/CategoryCard.astro';
+import { categories } from '../config/taxonomies';
+import { byNewest } from '../utils/resources';
+const all = (await getCollection('resources', ({ data }) => data.type === 'mandala')).sort(byNewest);
+const countFor = (category: string) => all.filter((item) => item.data.category === category).length;
+const popular = categories.filter((item) => item.featured);
+const easy = all.filter((item) => item.data.difficulty === 'facil').slice(0, 4);
+const kids = all.filter((item) => item.data.audience === 'ninos' || item.data.audience === 'todos').slice(0, 4);
+const adults = all.filter((item) => item.data.audience === 'adultos' || item.data.audience === 'todos').slice(0, 4);
+---
+<MainLayout title="Mandalas para colorear e imprimir gratis" description="Descubre mandalas gratuitos para descargar, imprimir y colorear: diseños fáciles, infantiles y para adultos.">
+  <section class="hero"><div class="container hero-grid">
+    <div class="hero-copy"><span class="eyebrow">Creatividad para todos</span><h1>Mandalas para colorear e imprimir gratis</h1><p>Descubre mandalas gratuitos para descargar, imprimir y colorear.</p><a class="button button-primary" href="/mandalas/">Explorar mandalas</a></div>
+    <div class="hero-art"><img src="/images/resources/mandalas/placeholder-mandala.svg" width="640" height="640" alt="Mandala floral de ejemplo" fetchpriority="high" /></div>
+  </div></section>
+  <section class="section" id="categorias"><div class="container"><div class="section-header"><div><span class="eyebrow">Encuentra tu estilo</span><h2>Categorías populares</h2></div><a class="text-link" href="/mandalas/#categorias">Ver todas →</a></div><div class="category-grid">{popular.map((category) => <CategoryCard {...category} count={countFor(category.slug)} />)}</div></div></section>
+  <section class="section section-tinted"><div class="container"><div class="section-header"><div><span class="eyebrow">Recién añadidos</span><h2>Mandalas nuevos</h2></div><a class="text-link" href="/mandalas/">Ver todos →</a></div><ResourceGrid resources={all.slice(0, 8)} eagerCount={4} /></div></section>
+  <section class="section"><div class="container"><div class="section-header"><div><span class="eyebrow">Para empezar</span><h2>Mandalas fáciles</h2></div><a class="text-link" href="/mandalas/faciles/">Ver fáciles →</a></div><ResourceGrid resources={easy} /></div></section>
+  <section class="section section-tinted"><div class="container"><div class="section-header"><h2>Mandalas para niños</h2><a class="text-link" href="/mandalas/ninos/">Ver para niños →</a></div><ResourceGrid resources={kids} /></div></section>
+  <section class="section"><div class="container"><div class="section-header"><h2>Mandalas para adultos</h2><a class="text-link" href="/mandalas/adultos/">Ver para adultos →</a></div><ResourceGrid resources={adults} /></div></section>
+  <section class="section section-tinted"><div class="narrow"><span class="eyebrow">Colecciones populares</span><h2>Elige según tu momento</h2><p>Empieza con formas sencillas, busca un reto detallado o encuentra diseños para compartir en familia.</p><div class="pill-links"><a href="/mandalas/faciles/">Fáciles</a><a href="/mandalas/intermedios/">Intermedios</a><a href="/mandalas/dificiles/">Difíciles</a><a href="/mandalas/ninos/">Para niños</a><a href="/mandalas/adultos/">Para adultos</a></div></div></section>
+</MainLayout>

@@ -1,0 +1,19 @@
+---
+interface Props { title: string; description: string; image?: string; canonical?: string; type?: 'website' | 'article'; jsonLd?: Record<string, unknown> }
+const { title, description, image = '/images/resources/mandalas/placeholder-mandala.svg', canonical = Astro.url.pathname, type = 'website', jsonLd } = Astro.props;
+const siteName = 'Manda';
+const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+const canonicalUrl = new URL(canonical, Astro.site ?? Astro.url.origin);
+const imageUrl = new URL(image, Astro.site ?? Astro.url.origin);
+---
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:site_name" content={siteName} />
+<meta name="twitter:card" content="summary_large_image" />
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
