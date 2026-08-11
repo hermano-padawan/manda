@@ -7,6 +7,7 @@ const output = path.resolve('gh-pages');
 const source = await readFile('app/data.ts', 'utf8');
 const slugs = [...source.matchAll(/slug:\s*["']([^"']+)["']/g)].map((match) => match[1]);
 const mandalaEntries = [...source.matchAll(/\{slug:"([^"]+)",title:"([^"]+)"[^}]+image:"([^"]+)"\}/g)].map((match) => ({ slug: match[1], title: match[2], image: match[3] }));
+const categoryEntries = [...source.matchAll(/\{slug:"([^"]+)",title:"([^"]+)"[^}]+image:"([^"]+)",tip:/g)].map((match) => ({ slug: match[1], title: match[2], image: match[3] }));
 const routes = ['/', '/mandalas', '/contacto', '/aviso-legal', '/privacidad', '/cookies', ...slugs.map((slug) => `/mandalas/${slug}`)];
 
 for (let attempt = 0; attempt < 30; attempt++) {
@@ -45,8 +46,9 @@ for (const route of routes) {
 }
 
 const escapeXml = (value) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
-const sitemapPages = ['https://dibulisto.site/', 'https://dibulisto.site/mandalas/'].map((url) => `  <url><loc>${url}</loc></url>`);
-const sitemapImages = mandalaEntries.map(({ slug, title, image }) => `  <url><loc>https://dibulisto.site/mandalas/${slug}/</loc><image:image><image:loc>https://dibulisto.site${image}</image:loc><image:title>${escapeXml(title)}</image:title></image:image></url>`);
+const lastModified = '2026-08-11';
+const sitemapPages = ['https://dibulisto.site/', 'https://dibulisto.site/mandalas/'].map((url) => `  <url><loc>${url}</loc><lastmod>${lastModified}</lastmod></url>`);
+const sitemapImages = [...categoryEntries,...mandalaEntries].map(({ slug, title, image }) => `  <url><loc>https://dibulisto.site/mandalas/${slug}/</loc><lastmod>${lastModified}</lastmod><image:image><image:loc>https://dibulisto.site${image}</image:loc><image:title>${escapeXml(title)}</image:title></image:image></url>`);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${[...sitemapPages, ...sitemapImages].join('\n')}\n</urlset>\n`;
 await writeFile(path.join(output, 'sitemap.xml'), sitemap);
 await writeFile(path.join(output, 'robots.txt'), 'User-agent: *\nAllow: /\nSitemap: https://dibulisto.site/sitemap.xml\n');
