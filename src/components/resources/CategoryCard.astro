@@ -1,10 +1,11 @@
 ---
+import { withBase } from '../../utils/urls';
 interface Props { name: string; slug: string; description: string; count?: number }
 const { name, slug, description, count } = Astro.props;
 ---
 <article class="category-card">
   <span class="category-icon" aria-hidden="true">✦</span>
-  <h3><a href={`/mandalas/${slug}/`}>{name}</a></h3>
+  <h3><a href={withBase(`/mandalas/${slug}/`)}>{name}</a></h3>
   <p>{description}</p>
   {typeof count === 'number' && <small>{count} {count === 1 ? 'mandala' : 'mandalas'}</small>}
 </article>

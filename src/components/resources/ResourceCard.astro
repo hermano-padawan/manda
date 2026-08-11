@@ -1,12 +1,13 @@
 ---
 import type { Resource } from '../../utils/resources';
 import { labelDifficulty, resourceUrl } from '../../utils/resources';
+import { withBase } from '../../utils/urls';
 interface Props { resource: Resource; eager?: boolean }
 const { resource, eager = false } = Astro.props;
 ---
 <article class="resource-card">
   <a class="card-image" href={resourceUrl(resource)}>
-    <img src={resource.data.thumbnail} alt={`Vista previa de ${resource.data.title}`} width="640" height="640" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    <img src={withBase(resource.data.thumbnail)} alt={`Vista previa de ${resource.data.title}`} width="640" height="640" loading={eager ? 'eager' : 'lazy'} decoding="async" />
   </a>
   <div class="card-body">
     <span class={`difficulty difficulty-${resource.data.difficulty}`}>{labelDifficulty(resource.data.difficulty)}</span>

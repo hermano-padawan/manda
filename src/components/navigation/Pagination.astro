@@ -1,7 +1,8 @@
 ---
+import { withBase } from '../../utils/urls';
 interface Props { current: number; total: number; baseUrl: string }
 const { current, total, baseUrl } = Astro.props;
-const urlFor = (page: number) => page === 1 ? baseUrl : `${baseUrl}pagina/${page}/`;
+const urlFor = (page: number) => withBase(page === 1 ? baseUrl : `${baseUrl}pagina/${page}/`);
 ---
 {total > 1 && <nav class="pagination" aria-label="Paginación">
   {current > 1 ? <a href={urlFor(current - 1)} rel="prev">← Anterior</a> : <span />}

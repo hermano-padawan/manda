@@ -2,7 +2,7 @@ import type { CollectionEntry } from 'astro:content';
 
 export type Resource = CollectionEntry<'resources'>;
 
-export const resourceUrl = (resource: Resource) => `/mandalas/${resource.data.slug}/`;
+export const resourceUrl = (resource: Resource) => withBase(`/mandalas/${resource.data.slug}/`);
 
 export const byNewest = (a: Resource, b: Resource) => b.data.date.getTime() - a.data.date.getTime();
 
@@ -25,3 +25,4 @@ export function relatedResources(current: Resource, all: Resource[], limit = 4):
 
 export const labelDifficulty = (value: string) => ({ facil: 'Fácil', intermedio: 'Intermedio', dificil: 'Difícil' }[value] ?? value);
 export const labelAudience = (value: string) => ({ ninos: 'Niños', adultos: 'Adultos', todos: 'Todos' }[value] ?? value);
+import { withBase } from './urls';

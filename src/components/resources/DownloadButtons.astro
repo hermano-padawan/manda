@@ -1,10 +1,11 @@
 ---
+import { withBase } from '../../utils/urls';
 interface Props { pdf: string; image: string; title: string }
 const { pdf, image, title } = Astro.props;
 ---
 <div class="download-actions" aria-label={`Opciones para ${title}`}>
-  <a class="button button-primary" href={pdf} download>Descargar PDF</a>
-  <a class="button button-secondary" href={image} download>Descargar imagen</a>
+  <a class="button button-primary" href={withBase(pdf)} download>Descargar PDF</a>
+  <a class="button button-secondary" href={withBase(image)} download>Descargar imagen</a>
   <button class="button button-ghost" type="button" data-print>Imprimir</button>
 </div>
 <script>
