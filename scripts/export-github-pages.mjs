@@ -2,7 +2,7 @@ import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const origin = 'http://127.0.0.1:3000';
-const base = '/manda';
+const base = '';
 const output = path.resolve('gh-pages');
 const source = await readFile('app/data.ts', 'utf8');
 const slugs = [...source.matchAll(/slug:\s*["']([^"']+)["']/g)].map((match) => match[1]);
