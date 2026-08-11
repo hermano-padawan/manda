@@ -3,6 +3,10 @@
   margin: 12mm;
 }
 
+.print-brand {
+  display: none;
+}
+
 @media print {
   body {
     background: #fff;
@@ -19,33 +23,23 @@
   }
 
   .site-header {
-    display: block !important;
-    border: 0;
-    background: #fff;
-  }
-
-  .site-header .header-inner {
-    min-height: 24mm;
-    justify-content: center;
-  }
-
-  .site-header nav {
     display: none !important;
   }
 
-  .site-header .brand {
-    gap: 6px;
-    font-size: 13px;
-    letter-spacing: -0.03em;
+  .print-brand {
+    display: flex;
+    min-height: 24mm;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: #17211b;
+    font-size: 14px;
+    font-weight: 800;
   }
 
-  .site-header .brand svg {
+  .print-brand img {
     width: 22px;
     height: 22px;
-  }
-
-  .site-header .brand span {
-    font-size: 15px;
   }
 
   .shell {
