@@ -4,3 +4,13 @@
 .brand svg{width:36px;height:36px;padding:7px;border-radius:11px;background:var(--acid);fill:var(--ink)}
 .brand span{font-size:21px;line-height:1;letter-spacing:-.06em}
 .brand strong{font-weight:900}
+.home-intro{padding:32px 0 24px;max-width:560px}
+.home-intro h1{font-size:clamp(32px,5vw,46px);line-height:1}
+.home-intro p:not(.eyebrow){margin-top:12px;font-size:16px}
+.home-categories{grid-template-columns:repeat(4,1fr)}
+.coming-card{cursor:default}
+.future-art{display:grid;place-items:center;position:relative;background:#f1f3ed;border:1px solid var(--line)}
+.future-art svg{width:48%;fill:none;stroke:#788079;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.future-art em{position:absolute;right:8px;bottom:8px;padding:5px 7px;border-radius:99px;background:#fff;color:#596159;font-size:9px;font-style:normal;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.coming-card .category-copy{display:block}.coming-card .category-copy strong{font-size:15px;color:#596159}
+@media(max-width:620px){.home-categories{grid-template-columns:repeat(2,1fr)}}
