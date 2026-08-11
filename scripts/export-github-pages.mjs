@@ -15,14 +15,6 @@ for (let attempt = 0; attempt < 30; attempt++) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 }
 
-for (const { from, to } of legacyRedirects) {
-  const target = `${base}/mandalas/${to}/`;
-  const redirectHtml = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><link rel="canonical" href="https://dibulisto.site/mandalas/${to}/"><meta http-equiv="refresh" content="0;url=${target}"><script>location.replace(${JSON.stringify(target)})</script><title>Redirigiendo…</title></head><body><a href="${target}">Ver el mandala</a></body></html>`;
-  const directory = path.join(output, 'mandalas', from);
-  await mkdir(directory, { recursive: true });
-  await writeFile(path.join(directory, 'index.html'), redirectHtml);
-}
-
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await cp('dist/client', output, { recursive: true });
@@ -41,6 +33,14 @@ for (const route of routes) {
   const directory = route === '/' ? output : path.join(output, route.slice(1));
   await mkdir(directory, { recursive: true });
   await writeFile(path.join(directory, 'index.html'), html);
+}
+
+for (const { from, to } of legacyRedirects) {
+  const target = `${base}/mandalas/${to}/`;
+  const redirectHtml = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><link rel="canonical" href="https://dibulisto.site/mandalas/${to}/"><meta http-equiv="refresh" content="0;url=${target}"><script>location.replace(${JSON.stringify(target)})</script><title>Redirigiendo…</title></head><body><a href="${target}">Ver el mandala</a></body></html>`;
+  const directory = path.join(output, 'mandalas', from);
+  await mkdir(directory, { recursive: true });
+  await writeFile(path.join(directory, 'index.html'), redirectHtml);
 }
 
 await writeFile(path.join(output, '.nojekyll'), '');
