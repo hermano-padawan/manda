@@ -6,11 +6,11 @@ if (!input || !output) throw new Error("Usage: node scripts/optimize-mandala.mjs
 
 const temporary = `${output}.tmp.webp`;
 let saved = false;
-for (const dimension of [950, 850, 750, 680]) {
+for (const dimension of [950, 850, 750, 680, 600, 550, 500]) {
   for (const quality of [32, 28, 24, 20]) {
     await sharp(input).resize(dimension, dimension, { fit: "inside", withoutEnlargement: true }).grayscale().webp({ quality, effort: 6, smartSubsample: true }).toFile(temporary);
     const { size } = await stat(temporary);
-    if (size <= 50_000 || (dimension === 680 && quality === 20)) {
+    if (size <= 50_000 || (dimension === 500 && quality === 20)) {
       await rm(output, { force: true });
       await rename(temporary, output);
       console.log(`${output}|${size}|${dimension}px|q${quality}`);
