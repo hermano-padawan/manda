@@ -6,8 +6,8 @@ import CategoryCard from '../../components/resources/CategoryCard.astro';
 import ResourceGrid from '../../components/resources/ResourceGrid.astro';
 import Pagination from '../../components/navigation/Pagination.astro';
 import { audiences, categories, difficulties } from '../../config/taxonomies';
+import { PAGE_SIZE } from '../../config/pagination';
 import { byNewest } from '../../utils/resources';
-const PAGE_SIZE = 12;
 const all = (await getCollection('resources', ({ data }) => data.type === 'mandala')).sort(byNewest);
 const countFor = (category: string) => all.filter((item) => item.data.category === category).length;
 ---
