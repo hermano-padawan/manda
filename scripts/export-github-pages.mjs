@@ -18,7 +18,7 @@ await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await cp('dist/client', output, { recursive: true });
 
-const interactions = `<script>document.querySelectorAll('.actions button').forEach((button,index)=>button.addEventListener('click',async()=>{if(index===0)return window.print();if(navigator.share)return navigator.share({title:document.title,url:location.href});return navigator.clipboard?.writeText(location.href)}));</script>`;
+const interactions = `<script>document.querySelectorAll('.actions button').forEach((button,index)=>button.addEventListener('click',async()=>{if(index===0)return window.print();if(navigator.share)return navigator.share({title:document.title,url:location.href});return navigator.clipboard?.writeText(location.href)}));document.querySelectorAll('.email-reveal').forEach(button=>button.addEventListener('click',()=>{const address=atob(button.dataset.email);const link=document.createElement('a');link.href='mailto:'+address;link.textContent=address;button.replaceWith(link)}));</script>`;
 
 for (const route of routes) {
   const response = await fetch(`${origin}${route}`);
@@ -34,6 +34,14 @@ for (const route of routes) {
   await writeFile(path.join(directory, 'index.html'), html);
 }
 
+const sitemapUrls = [
+  'https://dibulisto.site/',
+  'https://dibulisto.site/mandalas/',
+  ...slugs.map((slug) => `https://dibulisto.site/mandalas/${slug}/`),
+];
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls.map((url) => `  <url><loc>${url}</loc></url>`).join('\n')}\n</urlset>\n`;
+await writeFile(path.join(output, 'sitemap.xml'), sitemap);
+await writeFile(path.join(output, 'robots.txt'), 'User-agent: *\nAllow: /\nSitemap: https://dibulisto.site/sitemap.xml\n');
 await writeFile(path.join(output, '.nojekyll'), '');
 await cp(path.join(output, 'index.html'), path.join(output, '404.html'));
 console.log(`Exported ${routes.length} pages to ${output}`);
