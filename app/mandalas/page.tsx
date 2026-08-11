@@ -6,7 +6,9 @@ import { mandalas } from "../data";
 export const metadata: Metadata = {
   title: "Mandalas para imprimir gratis",
   description: "Mandalas originales de estilo botánico y geométrico, con zonas amplias y listos para imprimir y colorear.",
-  alternates: { canonical: "/mandalas" },
+  alternates: { canonical: "/mandalas/" },
+  openGraph: { type: "website", url: "/mandalas/", title: "Mandalas para imprimir gratis", description: "Mandalas originales de estilo botánico y geométrico, listos para imprimir y colorear.", images: [{ url: "/og.png", width: 1731, height: 907, alt: "Mandalas para imprimir en Dibulisto", type: "image/png" }] },
+  twitter: { card: "summary_large_image", title: "Mandalas para imprimir gratis", description: "Mandalas originales listos para imprimir y colorear.", images: ["/og.png"] },
 };
 
 export default function Mandalas() {

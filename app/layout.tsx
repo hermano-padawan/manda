@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   title: { default: "Dibulisto — Dibujos para imprimir", template: "%s — Dibulisto" },
   description: "Dibujos y mandalas gratuitos para imprimir y colorear.",
   alternates: { canonical: "/" },
-  openGraph: { type: "website", locale: "es_ES", siteName: "Dibulisto", images: [{ url: "/og.png", width: 1731, height: 907, alt: "Dibulisto — Dibujos listos para imprimir" }] },
-  twitter: { card: "summary_large_image", images: ["/og.png"] },
+  openGraph: { type: "website", locale: "es_ES", siteName: "Dibulisto", url: "/", title: "Dibulisto — Dibujos para imprimir", description: "Dibujos y mandalas gratuitos para imprimir y colorear.", images: [{ url: "/og.png", width: 1731, height: 907, alt: "Dibulisto — Dibujos listos para imprimir", type: "image/png" }] },
+  twitter: { card: "summary_large_image", title: "Dibulisto — Dibujos para imprimir", description: "Dibujos y mandalas gratuitos para imprimir y colorear.", images: ["/og.png"] },
   icons: { icon: "/favicon.svg" },
 };
 
