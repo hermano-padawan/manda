@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import "./print.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dibulisto.site"),

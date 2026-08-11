@@ -1,0 +1,72 @@
+@page {
+  size: A4 portrait;
+  margin: 12mm;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .crumbs,
+  .drawing-detail header,
+  .drawing-copy,
+  .seo-copy,
+  .related,
+  footer,
+  figcaption {
+    display: none !important;
+  }
+
+  .site-header {
+    display: block !important;
+    border: 0;
+    background: #fff;
+  }
+
+  .site-header .header-inner {
+    min-height: 24mm;
+    justify-content: center;
+  }
+
+  .site-header nav {
+    display: none !important;
+  }
+
+  .site-header .brand {
+    gap: 6px;
+    font-size: 13px;
+    letter-spacing: -0.03em;
+  }
+
+  .site-header .brand svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .site-header .brand span {
+    font-size: 15px;
+  }
+
+  .shell {
+    width: 100%;
+    margin: 0;
+  }
+
+  .drawing-detail {
+    display: block;
+    padding: 0;
+  }
+
+  .drawing-detail figure {
+    display: flex;
+    justify-content: center;
+  }
+
+  .drawing-detail figure img {
+    width: min(100%, 185mm);
+    height: auto;
+    border: 0;
+    border-radius: 0;
+  }
+}
