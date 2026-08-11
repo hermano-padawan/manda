@@ -6,7 +6,6 @@ const base = '/manda';
 const output = path.resolve('gh-pages');
 const source = await readFile('app/data.ts', 'utf8');
 const slugs = [...source.matchAll(/slug:\s*["']([^"']+)["']/g)].map((match) => match[1]);
-const legacyRedirects = slugs.slice(0, 22).map((slug) => ({ from: `mandala-${slug}`, to: slug }));
 const routes = ['/', '/mandalas', '/contacto', '/aviso-legal', '/privacidad', '/cookies', ...slugs.map((slug) => `/mandalas/${slug}`)];
 
 for (let attempt = 0; attempt < 30; attempt++) {
@@ -35,14 +34,6 @@ for (const route of routes) {
   await writeFile(path.join(directory, 'index.html'), html);
 }
 
-for (const { from, to } of legacyRedirects) {
-  const target = `${base}/mandalas/${to}/`;
-  const redirectHtml = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><link rel="canonical" href="https://dibulisto.site/mandalas/${to}/"><meta http-equiv="refresh" content="0;url=${target}"><script>location.replace(${JSON.stringify(target)})</script><title>Redirigiendo…</title></head><body><a href="${target}">Ver el mandala</a></body></html>`;
-  const directory = path.join(output, 'mandalas', from);
-  await mkdir(directory, { recursive: true });
-  await writeFile(path.join(directory, 'index.html'), redirectHtml);
-}
-
 await writeFile(path.join(output, '.nojekyll'), '');
 await cp(path.join(output, 'index.html'), path.join(output, '404.html'));
-console.log(`Exported ${routes.length} pages and ${legacyRedirects.length} legacy redirects to ${output}`);
+console.log(`Exported ${routes.length} pages to ${output}`);
