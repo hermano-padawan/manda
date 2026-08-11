@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="es"><body>{children}<footer><div className="shell"><span>© {new Date().getFullYear()} Dibulisto</span><span>Dibujos listos para imprimir.</span></div></footer></body></html>;
+  return <html lang="es"><body>{children}<footer><div className="shell footer-inner"><span>© {new Date().getFullYear()} Dibulisto</span><nav aria-label="Información legal"><Link href="/contacto">Contacto</Link><Link href="/aviso-legal">Aviso legal</Link><Link href="/privacidad">Privacidad</Link><Link href="/cookies">Cookies</Link></nav></div></footer></body></html>;
 }

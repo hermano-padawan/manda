@@ -6,7 +6,7 @@ const base = '/manda';
 const output = path.resolve('gh-pages');
 const source = await readFile('app/data.ts', 'utf8');
 const slugs = [...source.matchAll(/slug:\s*["']([^"']+)["']/g)].map((match) => match[1]);
-const routes = ['/', '/mandalas', ...slugs.map((slug) => `/mandalas/${slug}`)];
+const routes = ['/', '/mandalas', '/contacto', '/aviso-legal', '/privacidad', '/cookies', ...slugs.map((slug) => `/mandalas/${slug}`)];
 
 for (let attempt = 0; attempt < 30; attempt++) {
   try { if ((await fetch(origin)).ok) break; } catch {}
