@@ -70,4 +70,4 @@ const categoryByMandala: Record<string, MandalaCategorySlug> = {
 
 export function getCategoryForMandala(slug:string){const categorySlug=categoryByMandala[slug];return mandalaCategories.find(category=>category.slug===categorySlug)}
 export function getMandalasByCategory(slug:string){return mandalas.filter(mandala=>categoryByMandala[mandala.slug]===slug)}
-export function createMetaDescription(description:string){const suffix=" Descárgalo gratis, imprímelo en A4 y disfruta coloreándolo en casa o en clase.";const full=`${description}${suffix}`;if(full.length<=155)return full;const cut=full.slice(0,154);return `${cut.slice(0,cut.lastIndexOf(" "))}.`}
+export function createMetaDescription(description:string){return `${description} Gratis para imprimir y colorear.`}
