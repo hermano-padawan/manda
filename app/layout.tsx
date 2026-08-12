@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="es"><body>{children}<footer><div className="shell footer-inner"><span>© {new Date().getFullYear()} Dibulisto</span><nav aria-label="Información legal"><Link href="/contacto">Contacto</Link><Link href="/aviso-legal">Aviso legal</Link><Link href="/privacidad">Privacidad</Link><Link href="/cookies">Cookies</Link></nav></div></footer></body></html>;
+  return <html lang="es"><body>{children}<footer><div className="shell footer-inner"><span>© {new Date().getFullYear()} Dibulisto</span><div className="footer-social"><strong>Síguenos en redes</strong><a href="https://facebook.com/dibulisto" target="_blank" rel="noopener noreferrer">facebook.com/dibulisto</a></div><nav aria-label="Información legal"><Link href="/contacto">Contacto</Link><Link href="/aviso-legal">Aviso legal</Link><Link href="/privacidad">Privacidad</Link><Link href="/cookies">Cookies</Link></nav></div></footer></body></html>;
 }
