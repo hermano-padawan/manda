@@ -22,7 +22,7 @@ await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await cp('dist/client', output, { recursive: true });
 
-const interactions = `<script>document.querySelectorAll('.actions button').forEach((button,index)=>button.addEventListener('click',async()=>{if(index===0)return window.print();if(navigator.share)return navigator.share({title:document.title,url:location.href});return navigator.clipboard?.writeText(location.href)}));document.querySelectorAll('.email-reveal').forEach(button=>button.addEventListener('click',()=>{const address=atob(button.dataset.email);const link=document.createElement('a');link.href='mailto:'+address;link.textContent=address;button.replaceWith(link)}));</script>`;
+const interactions = `<script>document.querySelectorAll('.actions button').forEach((button,index)=>button.addEventListener('click',async()=>{if(index===0)return window.print();if(navigator.share)return navigator.share({title:document.title,url:location.href});return navigator.clipboard?.writeText(location.href)}));document.querySelectorAll('.email-reveal').forEach(button=>button.addEventListener('click',()=>{const address=String.fromCharCode(100,105,98,117,108,105,115,116,111,64,97,116,111,109,105,99,109,97,105,108,46,105,111);const link=document.createElement('a');link.href='mailto:'+address;link.textContent=address;button.replaceWith(link)}));</script>`;
 
 for (const route of routes) {
   const response = await fetch(`${origin}${route}`);
